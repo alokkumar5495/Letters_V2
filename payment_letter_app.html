@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Payment Letter – Co-Reviewer</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #f3f2ef;
+  --white: #ffffff;
+  --border: #e2e0dc;
+  --border2: #d0cdc8;
+  --text: #1a1916;
+  --text2: #6b6860;
+  --text3: #9e9b96;
+  --blue: #1a5fb4;
+  --blue-light: #ddeaff;
+  --green: #1a6e3c;
+  --green-bg: #e8f5ee;
+  --green-border: #4caf7d;
+  --red-bg: #fef0ef;
+  --red-border: #e05a4e;
+  --red-text: #b83228;
+  --amber-bg: #fff8e8;
+  --amber-border: #e8a020;
+  --amber-text: #8a5c00;
+  --toolbar-bg: #f9f8f6;
+  --toolbar-border: #e2e0dc;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+
+/* ── Top bar ── */
+.topbar { height: 40px; background: var(--white); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0; padding: 0 12px; flex-shrink: 0; }
+.topbar-back { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text2); cursor: pointer; padding: 4px 8px; border-radius: 4px; transition: background .15s; }
+.topbar-back:hover { background: var(--bg); }
+.topbar-menu { display: flex; gap: 2px; margin-left: 16px; }
+.topbar-menu button { background: none; border: none; font-family: 'DM Sans', sans-serif; font-size: 12.5px; color: var(--text2); padding: 4px 10px; border-radius: 4px; cursor: pointer; transition: background .15s; }
+.topbar-menu button:hover { background: var(--bg); color: var(--text); }
+
+/* ── Main layout ── */
+.layout { display: grid; grid-template-columns: 260px 1fr 340px; flex: 1; overflow: hidden; }
+
+/* ── Left panel ── */
+.left { background: var(--white); border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow-y: auto; }
+.left-section { padding: 14px 16px; border-bottom: 1px solid var(--border); }
+.left-section-title { font-size: 10px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+.edit-icons { display: flex; gap: 4px; }
+.edit-icons button { background: none; border: none; cursor: pointer; color: var(--text3); width: 20px; height: 20px; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 12px; transition: all .15s; }
+.edit-icons button:hover { background: var(--bg); color: var(--text); }
+.field { margin-bottom: 10px; }
+.field:last-child { margin-bottom: 0; }
+.field-label { font-size: 10px; color: var(--text3); margin-bottom: 3px; }
+.field-value { font-size: 13px; color: var(--text); font-weight: 400; }
+.field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+.add-cc-btn { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; color: var(--blue); background: var(--blue-light); padding: 5px 14px; border-radius: 20px; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; margin: 12px 16px; transition: opacity .15s; }
+.add-cc-btn:hover { opacity: .8; }
+.workkard-link { display: flex; align-items: center; gap: 6px; padding: 12px 16px; font-size: 13px; font-weight: 500; color: var(--blue); cursor: pointer; border-bottom: 1px solid var(--border); transition: background .15s; }
+.workkard-link:hover { background: var(--bg); }
+
+/* ── Center: editor ── */
+.center { display: flex; flex-direction: column; overflow: hidden; background: var(--white); }
+
+/* Toolbar */
+.toolbar { background: var(--toolbar-bg); border-bottom: 1px solid var(--toolbar-border); padding: 0 10px; display: flex; align-items: center; gap: 2px; flex-shrink: 0; height: 42px; }
+.tb-select { height: 28px; border: 1px solid var(--border2); background: var(--white); border-radius: 4px; font-size: 12px; padding: 0 6px; color: var(--text); font-family: 'DM Sans', sans-serif; cursor: pointer; }
+.tb-sep { width: 1px; height: 20px; background: var(--border2); margin: 0 4px; flex-shrink: 0; }
+.tb-btn { height: 28px; min-width: 28px; padding: 0 5px; border: none; background: none; border-radius: 4px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; color: var(--text2); font-family: 'DM Sans', sans-serif; font-size: 13px; transition: background .12s; flex-shrink: 0; }
+.tb-btn:hover { background: var(--border); color: var(--text); }
+.tb-btn.active { background: #ddeaff; color: var(--blue); }
+.tb-btn-bold { font-weight: 700; }
+.tb-btn-italic { font-style: italic; }
+.tb-btn-underline { text-decoration: underline; }
+.tb-btn-strike { text-decoration: line-through; }
+
+/* Letter page area */
+.editor-area { flex: 1; overflow-y: auto; background: #e8e6e1; padding: 24px 20px; display: flex; justify-content: center; }
+.letter-page { background: var(--white); width: 100%; max-width: 680px; min-height: calc(100% - 0px); padding: 40px 52px; box-shadow: var(--shadow); font-size: 13.5px; line-height: 1.75; color: var(--text); outline: none; }
+.letter-page p { margin-bottom: 14px; }
+.letter-page ul { padding-left: 24px; margin-bottom: 14px; }
+.letter-page li { margin-bottom: 4px; }
+
+/* Highlights */
+.hl-warn { background: #fff3cd; border-bottom: 2px solid var(--amber-border); cursor: pointer; border-radius: 2px; transition: background .2s; }
+.hl-warn:hover, .hl-warn.active { background: #fde8a0; }
+.hl-err { background: #fde8e7; border-bottom: 2px solid var(--red-border); cursor: pointer; border-radius: 2px; transition: background .2s; }
+.hl-err:hover, .hl-err.active { background: #f9c5c2; }
+.hl-ok { background: var(--green-bg); border-bottom: 2px solid var(--green-border); cursor: pointer; border-radius: 2px; transition: background .2s; }
+.hl-ok:hover, .hl-ok.active { background: #c5e8d3; }
+
+/* ── Right panel ── */
+.right { display: flex; flex-direction: column; border-left: 1px solid var(--border); background: var(--white); overflow: hidden; }
+.tabs { display: flex; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+.tab { flex: 1; padding: 12px 8px; font-size: 13px; font-weight: 500; text-align: center; cursor: pointer; color: var(--text3); border-bottom: 2px solid transparent; transition: all .15s; user-select: none; }
+.tab:hover { color: var(--text2); }
+.tab.active { color: var(--blue); border-bottom: 2px solid var(--blue); }
+
+/* Co-reviewer header */
+.cr-header { padding: 14px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.cr-avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #4c44c6, #1a9e6a); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.cr-name { font-size: 14px; font-weight: 600; color: var(--text); }
+.cr-sub { font-size: 11px; color: var(--text3); margin-top: 1px; }
+.cr-status { margin-left: auto; display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 500; color: var(--green); background: var(--green-bg); padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
+
+/* Findings */
+.findings { flex: 1; overflow-y: auto; padding: 14px 14px 0; }
+.group-label { font-size: 11px; font-weight: 700; color: var(--text2); letter-spacing: 0.6px; margin-bottom: 10px; margin-top: 4px; }
+.rerun-btn { display: flex; align-items: center; gap: 6px; padding: 6px 12px; background: none; border: 1px solid var(--border2); border-radius: 6px; font-size: 11.5px; color: var(--text2); cursor: pointer; font-family: 'DM Sans', sans-serif; margin-bottom: 14px; transition: all .15s; }
+.rerun-btn:hover { background: var(--bg); border-color: var(--text3); }
+.rerun-btn.spinning svg { animation: spin .7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.card { border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; cursor: pointer; transition: transform .15s, box-shadow .15s; }
+.card:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+.card.highlighted { box-shadow: 0 0 0 2px currentColor; }
+.card-err { background: var(--red-bg); border-left: 3px solid var(--red-border); }
+.card-warn { background: var(--amber-bg); border-left: 3px solid var(--amber-border); }
+.card-ok { background: var(--green-bg); border-left: 3px solid var(--green-border); }
+.card-title { font-size: 13px; font-weight: 600; margin-bottom: 5px; }
+.card-err .card-title { color: var(--red-text); }
+.card-warn .card-title { color: var(--amber-text); }
+.card-ok .card-title { color: var(--green); }
+.card-desc { font-size: 12px; line-height: 1.55; color: var(--text2); margin-bottom: 8px; }
+.card-ok .card-desc { margin-bottom: 0; }
+.card-action { display: inline-flex; align-items: center; gap: 4px; font-size: 11.5px; font-weight: 500; padding: 4px 10px; border-radius: 5px; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: opacity .15s; }
+.card-action:hover { opacity: .75; }
+.action-err { background: rgba(224,90,78,.12); color: var(--red-text); }
+.action-warn { background: rgba(232,160,32,.15); color: var(--amber-text); }
+
+/* Ask + bottom bar */
+.ask-area { padding: 12px 14px; border-top: 1px solid var(--border); flex-shrink: 0; }
+.ask-label { font-size: 11px; color: var(--text3); margin-bottom: 6px; }
+.ask-row { display: flex; align-items: center; gap: 8px; border: 1px solid var(--border2); border-radius: 8px; padding: 7px 10px; background: var(--bg); transition: border-color .15s; }
+.ask-row:focus-within { border-color: var(--blue); }
+.ask-input { flex: 1; border: none; background: none; font-size: 12.5px; color: var(--text); outline: none; font-family: 'DM Sans', sans-serif; }
+.ask-input::placeholder { color: var(--text3); }
+.ask-send { width: 26px; height: 26px; background: var(--blue); border: none; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: opacity .15s; }
+.ask-send:hover { opacity: .85; }
+
+.bottom-bar { padding: 12px 14px; border-top: 1px solid var(--border); display: flex; gap: 8px; flex-shrink: 0; }
+.btn-save { flex: 1; padding: 9px 0; border: 1px solid var(--border2); background: var(--white); border-radius: 7px; font-size: 13px; cursor: pointer; color: var(--text2); font-family: 'DM Sans', sans-serif; font-weight: 500; transition: all .15s; }
+.btn-save:hover { background: var(--bg); border-color: var(--text3); }
+.btn-approve { display: flex; border-radius: 7px; overflow: hidden; flex: 2; }
+.btn-approve-main { flex: 1; padding: 9px 14px; background: #1a6e3c; color: white; border: none; font-size: 13px; cursor: pointer; font-family: 'DM Sans', sans-serif; font-weight: 600; transition: background .15s; white-space: nowrap; }
+.btn-approve-main:hover { background: #155c31; }
+.btn-approve-caret { padding: 9px 11px; background: #1a6e3c; color: white; border: none; border-left: 1px solid rgba(255,255,255,0.25); cursor: pointer; font-size: 11px; transition: background .15s; }
+.btn-approve-caret:hover { background: #155c31; }
+
+/* Tab panels */
+.tab-panel { display: none; flex-direction: column; flex: 1; overflow: hidden; }
+.tab-panel.active { display: flex; }
+
+/* Comments panel empty state */
+.empty-state { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text3); padding: 32px; text-align: center; }
+.empty-icon { width: 56px; height: 56px; border-radius: 50%; background: var(--bg); display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
+.empty-title { font-size: 14px; font-weight: 600; color: var(--text2); margin-bottom: 4px; }
+.empty-desc { font-size: 12px; color: var(--text3); }
+
+/* Letter detail panel */
+.detail-list { padding: 14px; overflow-y: auto; flex: 1; }
+.detail-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+.detail-row:last-child { border-bottom: none; }
+.detail-key { color: var(--text3); }
+.detail-val { color: var(--text); font-weight: 500; text-align: right; }
+
+/* Modal */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.35); display: flex; align-items: center; justify-content: center; z-index: 100; opacity: 0; pointer-events: none; transition: opacity .2s; }
+.modal-overlay.visible { opacity: 1; pointer-events: all; }
+.modal { background: var(--white); border-radius: 12px; padding: 28px; width: 380px; box-shadow: 0 20px 60px rgba(0,0,0,0.18); transform: translateY(8px); transition: transform .2s; }
+.modal-overlay.visible .modal { transform: translateY(0); }
+.modal-icon { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+.modal-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+.modal-desc { font-size: 13px; color: var(--text2); line-height: 1.6; margin-bottom: 20px; }
+.modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+.modal-btn { padding: 8px 18px; border-radius: 7px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; border: none; transition: opacity .15s; }
+.modal-btn:hover { opacity: .85; }
+.modal-cancel { background: var(--bg); color: var(--text2); border: 1px solid var(--border2); }
+.modal-confirm-green { background: #1a6e3c; color: white; }
+.modal-confirm-blue { background: var(--blue); color: white; }
+
+/* Toast */
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(12px); background: #1a1916; color: white; font-size: 13px; padding: 10px 20px; border-radius: 8px; opacity: 0; pointer-events: none; transition: all .25s; z-index: 200; white-space: nowrap; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* Scrollbars */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<!-- Top menu bar -->
+<div class="topbar">
+  <div class="topbar-back" onclick="showToast('Navigating back…')">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Back
+  </div>
+  <div class="topbar-menu">
+    <button>File</button>
+    <button>Edit</button>
+    <button>View</button>
+    <button>Insert</button>
+    <button>Format</button>
+    <button>Tools</button>
+    <button>Help</button>
+  </div>
+</div>
+
+<!-- Main 3-column layout -->
+<div class="layout">
+
+  <!-- ── LEFT PANEL ── -->
+  <div class="left">
+    <div class="workkard-link" onclick="showToast('Opening Workkard info…')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3H8a2 2 0 0 0-2 2v2h12V5a2 2 0 0 0-2-2z"/></svg>
+      Workkard Info
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:auto"><path d="M9 18l6-6-6-6"/></svg>
+    </div>
+
+    <div class="left-section">
+      <div class="left-section-title">
+        Primary Recipient
+        <div class="edit-icons"><button onclick="showToast('Edit recipient')">✏</button></div>
+      </div>
+      <div class="field"><div class="field-label">Name</div><div class="field-value">Ashwani</div></div>
+      <div class="field-grid">
+        <div class="field"><div class="field-label">Address 1</div><div class="field-value">Street</div></div>
+        <div class="field"><div class="field-label">Address 2</div><div class="field-value">Test Address</div></div>
+        <div class="field"><div class="field-label">City</div><div class="field-value">Delray Beach</div></div>
+        <div class="field"><div class="field-label">State</div><div class="field-value">FL</div></div>
+      </div>
+      <div class="field"><div class="field-label">Zip</div><div class="field-value">33447</div></div>
+    </div>
+
+    <div class="left-section">
+      <div class="left-section-title">
+        CC1
+        <div class="edit-icons">
+          <button onclick="showToast('Edit CC')">✏</button>
+          <button onclick="showToast('Remove CC')">✕</button>
+        </div>
+      </div>
+      <div class="field-value">Ashwani</div>
+      <div style="font-size:12px;color:var(--text3);margin-top:3px">Street</div>
+      <div style="font-size:12px;color:var(--text3)">Delray Beach FL, 33447</div>
+    </div>
+
+    <button class="add-cc-btn" onclick="showToast('Add CC functionality')">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Add CC
+    </button>
+  </div>
+
+  <!-- ── CENTER: EDITOR ── -->
+  <div class="center">
+
+    <!-- Single-row CK4-style toolbar -->
+    <div class="toolbar">
+      <select class="tb-select" style="width:100px" onchange="execCmd('formatBlock',this.value)">
+        <option value="p">Paragraph</option>
+        <option value="h1">Heading 1</option>
+        <option value="h2">Heading 2</option>
+        <option value="h3">Heading 3</option>
+      </select>
+      <select class="tb-select" style="width:80px;margin-left:4px" onchange="execCmd('fontName',this.value)">
+        <option>Arial</option>
+        <option>Georgia</option>
+        <option>Times New Roman</option>
+        <option>Courier New</option>
+      </select>
+      <select class="tb-select" style="width:48px;margin-left:4px" onchange="execCmd('fontSize',this.value)">
+        <option>3</option><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option>
+      </select>
+      <span class="tb-sep"></span>
+      <button class="tb-btn" title="Text color" onclick="showToast('Text color picker')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20h4l10.5-10.5a2.121 2.121 0 0 0-3-3L5 17v3z"/><line x1="13.5" y1="6.5" x2="17.5" y2="10.5"/></svg>
+      </button>
+      <button class="tb-btn" title="Highlight" onclick="showToast('Highlight color')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9.62 12L12 9l2.38 3H9.62zM20 20H4l4-5h8l4 5z" opacity=".3"/><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg>
+      </button>
+      <span class="tb-sep"></span>
+      <button class="tb-btn" title="Find" onclick="showToast('Find & replace')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
+      <button class="tb-btn" title="Remove format" onclick="execCmd('removeFormat')" style="font-size:11px;font-weight:600">Tx</button>
+      <button class="tb-btn" title="Special char" onclick="showToast('Special characters')">Ω</button>
+      <button class="tb-btn" title="Help" onclick="showToast('Help')" style="width:22px;height:22px;border:1px solid var(--border2);border-radius:50%;font-size:11px;font-weight:600">?</button>
+      <span class="tb-sep"></span>
+      <button class="tb-btn tb-btn-bold" id="btn-bold" title="Bold" onclick="toggleFormat('bold','btn-bold')">B</button>
+      <button class="tb-btn tb-btn-italic" id="btn-italic" title="Italic" onclick="toggleFormat('italic','btn-italic')">I</button>
+      <button class="tb-btn tb-btn-underline" id="btn-underline" title="Underline" onclick="toggleFormat('underline','btn-underline')">U</button>
+      <button class="tb-btn tb-btn-strike" id="btn-strike" title="Strikethrough" onclick="toggleFormat('strikeThrough','btn-strike')">S</button>
+      <span class="tb-sep"></span>
+      <button class="tb-btn" title="Align left" onclick="execCmd('justifyLeft')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="18" y2="18"/></svg>
+      </button>
+      <button class="tb-btn" title="Center" onclick="execCmd('justifyCenter')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+      </button>
+      <button class="tb-btn" title="Align right" onclick="execCmd('justifyRight')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="9" y1="12" x2="21" y2="12"/><line x1="6" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <button class="tb-btn" title="Justify" onclick="execCmd('justifyFull')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <span class="tb-sep"></span>
+      <button class="tb-btn" title="Numbered list" onclick="execCmd('insertOrderedList')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="10" y1="6" x2="21" y2="6"/><line x1="10" y1="12" x2="21" y2="12"/><line x1="10" y1="18" x2="21" y2="18"/><path d="M4 6h1v4M4 10h2M6 18H4c0-1 2-2 2-3s-1-1.5-2-1" stroke-width="1.5"/></svg>
+      </button>
+      <button class="tb-btn" title="Bullet list" onclick="execCmd('insertUnorderedList')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="10" y1="6" x2="21" y2="6"/><line x1="10" y1="12" x2="21" y2="12"/><line x1="10" y1="18" x2="21" y2="18"/><circle cx="4" cy="6" r="1.5" fill="currentColor" stroke="none"/><circle cx="4" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="4" cy="18" r="1.5" fill="currentColor" stroke="none"/></svg>
+      </button>
+      <button class="tb-btn" title="Decrease indent" onclick="execCmd('outdent')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="12" x2="9" y2="12"/><line x1="21" y1="18" x2="3" y2="18"/><polyline points="7 8 3 12 7 16" stroke-width="2"/></svg>
+      </button>
+      <button class="tb-btn" title="Increase indent" onclick="execCmd('indent')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/><polyline points="11 8 15 12 11 16" stroke-width="2"/></svg>
+      </button>
+      <span class="tb-sep"></span>
+      <button class="tb-btn" title="Insert table" onclick="showToast('Insert table')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>
+      </button>
+      <button class="tb-btn" title="Insert link" onclick="showToast('Insert link')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+      </button>
+      <button class="tb-btn" title="Insert image" onclick="showToast('Insert image')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+      </button>
+    </div>
+
+    <!-- Letter content (contenteditable) -->
+    <div class="editor-area">
+      <div class="letter-page" id="letter" contenteditable="true" spellcheck="true">
+        <p>Dear <span class="hl-ok" id="hl-name" onclick="highlightCard('card-name')">Ashwani</span>:</p>
+        <p>We have completed our estimate of the damages and have issued payment as follows:</p>
+        <ul>
+          <li><span class="hl-warn" id="hl-amount" onclick="highlightCard('card-amount')">$2.00 under coverage A for Dwelling</span></li>
+        </ul>
+        <p>The check or checks are being mailed in separate envelopes.</p>
+        <p>Enclosed is a copy of which reflects our valuation of the covered damages based on the information provided to date.</p>
+        <p>When the check or checks arrive, they may have multiple parties, such as lienholders, assignees or others that may be legally entitled to policy benefits. If the mortgagee is a payee on the check, please understand that this is according to the policy. For the check to be properly processed, please obtain proper signatures and endorsement for all parties listed on the check. If you do not obtain the proper signatures and endorsements, our bank may not be able to complete the transaction and will return the claim check for missing endorsements. <span class="hl-err" id="hl-negative" onclick="highlightCard('card-negative')">This will delay access to and use of the funds.</span></p>
+        <p>The policy may provide Replacement Cost coverage whereby the amount estimated as "recoverable depreciation" may be recovered once repairs are completed or the costs are incurred by a legally binding contract.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── RIGHT PANEL ── -->
+  <div class="right">
+    <!-- Tabs -->
+    <div class="tabs">
+      <div class="tab" id="tab-detail" onclick="switchTab('detail')">Letter Detail</div>
+      <div class="tab" id="tab-comments" onclick="switchTab('comments')">Comments</div>
+      <div class="tab active" id="tab-reviewer" onclick="switchTab('reviewer')">Co-Reviewer</div>
+    </div>
+
+    <!-- Letter Detail panel -->
+    <div class="tab-panel" id="panel-detail">
+      <div class="detail-list">
+        <div class="detail-row"><span class="detail-key">Letter type</span><span class="detail-val">Payment Letter</span></div>
+        <div class="detail-row"><span class="detail-key">Created</span><span class="detail-val">Apr 13, 2026</span></div>
+        <div class="detail-row"><span class="detail-key">Modified</span><span class="detail-val">Apr 14, 2026</span></div>
+        <div class="detail-row"><span class="detail-key">Coverage</span><span class="detail-val">Coverage A – Dwelling</span></div>
+        <div class="detail-row"><span class="detail-key">Payment amount</span><span class="detail-val" style="color:var(--amber-text)">$2.00</span></div>
+        <div class="detail-row"><span class="detail-key">Claim status</span><span class="detail-val">Active</span></div>
+        <div class="detail-row"><span class="detail-key">Recipient</span><span class="detail-val">Ashwani</span></div>
+        <div class="detail-row"><span class="detail-key">State</span><span class="detail-val">FL</span></div>
+      </div>
+      <div class="bottom-bar">
+        <button class="btn-save" onclick="showSaveModal()">Save and Exit</button>
+        <div class="btn-approve">
+          <button class="btn-approve-main" onclick="showApproveModal()">Approve Letter</button>
+          <button class="btn-approve-caret" onclick="showToast('More options')">▾</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comments panel -->
+    <div class="tab-panel" id="panel-comments">
+      <div class="empty-state">
+        <div class="empty-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <div class="empty-title">No Comments</div>
+        <div class="empty-desc">There are no comments here</div>
+      </div>
+      <div class="bottom-bar">
+        <button class="btn-save" onclick="showSaveModal()">Save and Exit</button>
+        <div class="btn-approve">
+          <button class="btn-approve-main" onclick="showApproveModal()">Approve Letter</button>
+          <button class="btn-approve-caret" onclick="showToast('More options')">▾</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Co-Reviewer panel -->
+    <div class="tab-panel active" id="panel-reviewer">
+      <div class="cr-header">
+        <div class="cr-avatar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0112 0v2"/></svg>
+        </div>
+        <div>
+          <div class="cr-name">Co-Reviewer</div>
+          <div class="cr-sub">Reviewed just now</div>
+        </div>
+        <div class="cr-status">
+          <svg width="7" height="7" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="#1a6e3c"/></svg>
+          Active
+        </div>
+      </div>
+
+      <div class="findings">
+        <button class="rerun-btn" id="rerun-btn" onclick="rerunReview()">
+          <svg id="rerun-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+          Re-run review
+        </button>
+
+        <div class="group-label">ISSUES · 2</div>
+
+        <div class="card card-err" id="card-negative" onclick="scrollToHighlight('hl-negative','card-negative')">
+          <div class="card-title">Negative closing statement</div>
+          <div class="card-desc">The phrase ending with "delay access to and use of the funds" may create an unnecessarily negative impression. Consider reframing with a constructive tone.</div>
+          <button class="card-action action-err" onclick="event.stopPropagation();showRewriteModal()">Suggest rewrite</button>
+        </div>
+
+        <div class="card card-warn" id="card-amount" onclick="scrollToHighlight('hl-amount','card-amount')">
+          <div class="card-title">Unusually low payment amount</div>
+          <div class="card-desc">Payment of $2.00 under Coverage A appears atypically low for a dwelling claim. Please verify this amount before sending.</div>
+          <button class="card-action action-warn" onclick="event.stopPropagation();showVerifyModal()">Verify amount</button>
+        </div>
+
+        <div class="group-label" style="margin-top:14px">PASSED · 3</div>
+
+        <div class="card card-ok" id="card-name" onclick="scrollToHighlight('hl-name','card-name')">
+          <div class="card-title">Recipient name matches correctly</div>
+          <div class="card-desc">Salutation "Dear Ashwani" matches the primary recipient record.</div>
+        </div>
+
+        <div class="card card-ok">
+          <div class="card-title">Endorsement instructions present</div>
+          <div class="card-desc">Multi-party check and lienholder endorsement language is included and complete.</div>
+        </div>
+
+        <div class="card card-ok">
+          <div class="card-title">Replacement cost language included</div>
+          <div class="card-desc">Recoverable depreciation clause is present as required for RCV policies.</div>
+        </div>
+      </div>
+
+      <div class="ask-area">
+        <div class="ask-label">Ask about this letter</div>
+        <div class="ask-row">
+          <input class="ask-input" id="ask-input" placeholder="e.g. Is the tone appropriate?" onkeydown="if(event.key==='Enter')sendAsk()"/>
+          <button class="ask-send" onclick="sendAsk()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="bottom-bar">
+        <button class="btn-save" onclick="showSaveModal()">Save and Exit</button>
+        <div class="btn-approve">
+          <button class="btn-approve-main" onclick="showApproveModal()">Approve Letter</button>
+          <button class="btn-approve-caret" onclick="showToast('More options')">▾</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Approve modal -->
+<div class="modal-overlay" id="modal-approve">
+  <div class="modal">
+    <div class="modal-icon" style="background:#e8f5ee">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1a6e3c" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+    </div>
+    <div class="modal-title">Approve this letter?</div>
+    <div class="modal-desc">This will approve and send the Payment Letter to Ashwani at Delray Beach, FL. There are <strong>2 open issues</strong> flagged by the Co-Reviewer. Are you sure you want to proceed?</div>
+    <div class="modal-actions">
+      <button class="modal-btn modal-cancel" onclick="closeModal('modal-approve')">Cancel</button>
+      <button class="modal-btn modal-confirm-green" onclick="confirmApprove()">Approve Letter</button>
+    </div>
+  </div>
+</div>
+
+<!-- Save modal -->
+<div class="modal-overlay" id="modal-save">
+  <div class="modal">
+    <div class="modal-icon" style="background:#ddeaff">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1a5fb4" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+    </div>
+    <div class="modal-title">Save and exit?</div>
+    <div class="modal-desc">Your changes will be saved as a draft. You can return to this letter at any time to continue editing.</div>
+    <div class="modal-actions">
+      <button class="modal-btn modal-cancel" onclick="closeModal('modal-save')">Cancel</button>
+      <button class="modal-btn modal-confirm-blue" onclick="confirmSave()">Save Draft</button>
+    </div>
+  </div>
+</div>
+
+<!-- Rewrite modal -->
+<div class="modal-overlay" id="modal-rewrite">
+  <div class="modal">
+    <div class="modal-icon" style="background:var(--red-bg)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--red-text)" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+    </div>
+    <div class="modal-title">Suggested rewrite</div>
+    <div class="modal-desc">Replace the negative closing with a more constructive alternative:<br><br><em style="background:var(--green-bg);padding:8px 12px;display:block;border-radius:6px;border-left:3px solid var(--green-border);margin-top:4px;font-style:normal;font-size:12.5px;color:var(--text)">"To ensure timely access to your funds, please make sure all required signatures and endorsements are obtained promptly."</em></div>
+    <div class="modal-actions">
+      <button class="modal-btn modal-cancel" onclick="closeModal('modal-rewrite')">Dismiss</button>
+      <button class="modal-btn modal-confirm-green" onclick="applyRewrite()">Apply Rewrite</button>
+    </div>
+  </div>
+</div>
+
+<!-- Verify modal -->
+<div class="modal-overlay" id="modal-verify">
+  <div class="modal">
+    <div class="modal-icon" style="background:var(--amber-bg)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--amber-text)" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    </div>
+    <div class="modal-title">Verify payment amount</div>
+    <div class="modal-desc">$2.00 is atypically low for a Coverage A dwelling claim. Before approving, please:<br><br>
+      <span style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;margin-top:4px">
+        <span>✅ Check the adjuster's estimate in the claim file</span>
+        <span>✅ Confirm the correct amount in your claims system</span>
+        <span>✅ Verify the deductible hasn't been misapplied</span>
+      </span>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn modal-cancel" onclick="closeModal('modal-verify')">Close</button>
+      <button class="modal-btn modal-confirm-blue" onclick="closeModal('modal-verify');showToast('Claim file opened in new tab')">Open Claim File</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// Tab switching
+function switchTab(name) {
+  ['detail','comments','reviewer'].forEach(t => {
+    document.getElementById('tab-'+t).classList.remove('active');
+    document.getElementById('panel-'+t).classList.remove('active');
+  });
+  document.getElementById('tab-'+name).classList.add('active');
+  document.getElementById('panel-'+name).classList.add('active');
+}
+
+// Toolbar formatting
+function execCmd(cmd, val) {
+  document.getElementById('letter').focus();
+  document.execCommand(cmd, false, val || null);
+}
+function toggleFormat(cmd, btnId) {
+  execCmd(cmd);
+  const btn = document.getElementById(btnId);
+  btn.classList.toggle('active');
+}
+
+// Highlight card + scroll to letter span
+let activeCard = null;
+let activeHL = null;
+function highlightCard(cardId) {
+  if (activeCard) document.getElementById(activeCard)?.classList.remove('highlighted');
+  if (activeHL) document.getElementById(activeHL)?.classList.remove('active');
+  activeCard = cardId;
+  document.getElementById(cardId)?.classList.add('highlighted');
+}
+function scrollToHighlight(hlId, cardId) {
+  const el = document.getElementById(hlId);
+  if (el) { el.classList.add('active'); el.scrollIntoView({behavior:'smooth', block:'center'}); }
+  if (activeCard && activeCard !== cardId) document.getElementById(activeCard)?.classList.remove('highlighted');
+  if (activeHL && activeHL !== hlId) document.getElementById(activeHL)?.classList.remove('active');
+  activeCard = cardId; activeHL = hlId;
+  // Also switch to reviewer tab if not active
+  switchTab('reviewer');
+  document.getElementById(cardId)?.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+// Re-run review animation
+function rerunReview() {
+  const btn = document.getElementById('rerun-btn');
+  btn.classList.add('spinning');
+  btn.disabled = true;
+  btn.innerHTML = `<svg id="rerun-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg> Reviewing…`;
+  setTimeout(() => {
+    btn.classList.remove('spinning');
+    btn.disabled = false;
+    btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg> Re-run review`;
+    showToast('Review complete — 2 issues found');
+  }, 2200);
+}
+
+// Ask input
+function sendAsk() {
+  const inp = document.getElementById('ask-input');
+  const val = inp.value.trim();
+  if (!val) return;
+  showToast('Question sent to Co-Reviewer');
+  inp.value = '';
+}
+
+// Modals
+function showApproveModal() { document.getElementById('modal-approve').classList.add('visible'); }
+function showSaveModal() { document.getElementById('modal-save').classList.add('visible'); }
+function showRewriteModal() { document.getElementById('modal-rewrite').classList.add('visible'); }
+function showVerifyModal() { document.getElementById('modal-verify').classList.add('visible'); }
+function closeModal(id) { document.getElementById(id).classList.remove('visible'); }
+
+function confirmApprove() {
+  closeModal('modal-approve');
+  showToast('✓ Letter approved and sent to Ashwani');
+}
+function confirmSave() {
+  closeModal('modal-save');
+  showToast('✓ Draft saved successfully');
+}
+function applyRewrite() {
+  const el = document.getElementById('hl-negative');
+  if (el) {
+    el.textContent = 'To ensure timely access to your funds, please make sure all required signatures and endorsements are obtained promptly.';
+    el.className = 'hl-ok';
+  }
+  // Update card to passed
+  const card = document.getElementById('card-negative');
+  if (card) {
+    card.className = 'card card-ok';
+    card.querySelector('.card-title').textContent = 'Closing statement rewritten';
+    card.querySelector('.card-desc').textContent = 'Negative tone corrected to a constructive, positive statement.';
+    const btn = card.querySelector('.card-action');
+    if (btn) btn.remove();
+  }
+  document.querySelector('.group-label').textContent = 'ISSUES · 1';
+  closeModal('modal-rewrite');
+  showToast('✓ Rewrite applied to letter');
+}
+
+// Close modals on overlay click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => { if(e.target === overlay) overlay.classList.remove('visible'); });
+});
+
+// Toast
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// Keep letter editable focus styles subtle
+document.getElementById('letter').addEventListener('focus', () => {});
+</script>
+</body>
+</html>
